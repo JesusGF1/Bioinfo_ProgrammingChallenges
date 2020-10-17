@@ -47,7 +47,7 @@ class Database
     end
     
     def get_seed_stock(seed_type)
-      puts "There are #{@db[seed_type]["Grams_Remaining"]} grams remaining of seed stock #{seed_type}" #I don't know if I should ask for grams remaining or the entire hash         
+      puts "This is the info regarding #{seed_type} seed stock: #{@db[seed_type]} " #I don't know if I should ask for grams remaining or the entire hash         
     end
     
     def write_database
