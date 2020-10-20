@@ -12,12 +12,12 @@ class Gene
         @words[row] = file_gene[row].split("\t") #words is now an array of arrays. The first dimension of the array is the line, the second the column.
       end
     
-      keys = Array.new #Now I am creating an array where I will save the keys that will allow me to access the inside hashes. This keys are the values of the seed_stock column of the tsv 
-      for _ in 1...@words.length() #the range starts at one because I don't want Seed_stock located in words[0][0]
+      keys = Array.new #Now I am creating an array where I will save the keys that will allow me to access the inside hashes. This keys are the values of the first column of the tsv 
+      for _ in 1...@words.length() #the range starts at one because I don't want Gene_ID located in words[0][0]
           keys[_-1] = @words[_][0] #I substract 1 to _ to start my indexes in key from 0 not from 1 as I would with this range. With the indexing in words I get the first column
       end
       
-      lil_keys = @words[0][1...@words.length] #Here I create an array with the keys for the inside hashes, these are the words from the header except Seed_stock
+      lil_keys = @words[0][1...@words.length] #Here I create an array with the keys for the inside hashes, these are the words from the header except Gene_ID
       @db = Hash.new #I overwrite the initialized hash.
       counter = 0 #I am starting a counter that will allow me to convert the iteration through key in an index for the row number
       keys.each do |key|
@@ -28,5 +28,13 @@ class Gene
           end
       end
     end
-
+    
+    def gene_name(seed_stock_name, stocks_database)  
+        match_obj = Regexp.new(/A[Tt]\d[Gg]\d\d\d\d\d/) #creating a matchobject with the Regexp characteristic of the Gene_IDs
+        if match_obj.match(stocks_database[seed_stock_name]["Mutant_Gene_ID"]) #if the matchobject matches the muant_gene_id we obtain the Gene_name through indexing the database
+            gene_name = @db[stocks_database[seed_stock_name]["Mutant_Gene_ID"]]["Gene_name"]
+        else
+          print "The gene identifier format is not correct, please check the database"   #error message.
+        end
+    end
 end
