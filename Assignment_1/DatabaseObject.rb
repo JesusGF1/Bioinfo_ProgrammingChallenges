@@ -4,7 +4,7 @@ class Database
     attr_accessor :path
     
     def initialize(db = {})
-        @db = db #Hash will be a hash comprised of hashes.
+        @db = db #the database hash will be a hash comprised of hashes.
     end
     
     def load_from_file(path = "./seed_stock_data.tsv")
@@ -41,13 +41,13 @@ class Database
         if @db[seed_type]["Grams_Remaining"] > quantity #if there is more seed left than what is planted we change the Grams_remaining in the quantity we planted
           @db[seed_type]["Grams_Remaining"] -= quantity
         else
-          puts "WARNING: we have run out of seed stock #{seed_type}" #if there is else it ouputs an error
+          puts "WARNING: we have run out of seed stock #{seed_type}" #if there is less or equal it ouputs an error because we can not plant more than there is
         
         end
     end
     
     def get_seed_stock(seed_type)
-      puts "This is the info regarding #{seed_type} seed stock: #{@db[seed_type]} " #I don't know if I should ask for grams remaining or the entire hash         
+      puts "This is the info regarding #{seed_type} seed stock: #{@db[seed_type]} " #I don't know if I should ask for grams remaining or the entire hash, but in this case I am asking for the total info         
     end
     
     def write_database
