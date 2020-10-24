@@ -4,7 +4,7 @@ class Gene
       @db = db
     end
     
-    def load_from_file(path = "./gene_information.tsv")
+    def load_from_file(path = "./gene_information.tsv") #I could have inherited the load_from_file capabilitie from the database object
       @path = path  #here we write the path of the file, if we wanted to see it outside the function we can acces it
       file_gene = File.read(@path).split("\n") #We are reading the tsv, splitting by newline creates an array of strings, each string a line of the tsv
       @words =[]  #creating an array in which I will sall the words of the tsv
@@ -33,8 +33,7 @@ class Gene
         match_obj = Regexp.new(/A[Tt]\d[Gg]\d\d\d\d\d/) #creating a matchobject with the Regexp characteristic of the Gene_IDs
         if match_obj.match(stocks_database[seed_stock_name]["Mutant_Gene_ID"]) #if the matchobject matches the muant_gene_id we obtain the Gene_name through indexing the database
             gene_name = @db[stocks_database[seed_stock_name]["Mutant_Gene_ID"]]["Gene_name"]
-        else
-          print "The gene identifier format is not correct, please check the database"   #error message.
+            return gene_name #this return would not be necessary with ruby but I like to have it there for readability
         end
     end
 end

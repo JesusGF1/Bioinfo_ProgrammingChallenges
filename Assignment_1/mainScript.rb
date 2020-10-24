@@ -6,10 +6,15 @@ def linkage(parent1, parent2, chi_db, stock_db, gene_object) #the input is the n
     par1 = gene_object.gene_name(parent1, stock_db) #stocks es la base de datos de seed_stocks
     par2 = gene_object.gene_name(parent2, stock_db)
     
-    if chi_db[parent1][parent2] >= 7.82
-      puts "#{par1} is genetically linked to #{par2}"
+    match_obj = Regexp.new(/\w+/) #creating a matchobject with the Regexp characteristic of the Gene_IDs
+    if match_obj.match(par1) && match_obj.match(par2)
+        if chi_db[parent1][parent2] >= 7.82
+            puts "Recording: #{par1} is genetically linked to #{par2} with chisquare score #{chi_db[parent1][parent2]}" #la parte del chisqes la que me da error
+        else
+            puts "Recording: #{par1} is not genetically linked to #{par2} with chisquare score #{chi_db[parent1][parent2]}"
+        end
     else
-      puts "#{par1} is not genetically linked to #{par2}"
+        puts "The gene identifier format is not correct, please check the database"
     end
 end
 
@@ -32,11 +37,13 @@ cross_object = HybridCross.new
 cross_object.load_from_file
 cross_object.calc_chi_sq
 chi_sq_db = cross_object.chi_sq
+puts chi_sq_db
 gene_obj = Gene.new
 gene_obj.load_from_file
 
-linkage("A334", "A348", chi_sq_db, stocks, gene_obj)  #sobre esto también podría iterar para automatizarlo
+linkage("A334", "A348", chi_sq_db, stocks, gene_obj)  #this would also be iterable with the keys from the gene database
 linkage("A348", "B3334", chi_sq_db, stocks, gene_obj)
 linkage("B3334", "A51", chi_sq_db, stocks, gene_obj)
-linkage("A51", "B52", chi_sq_db, stocks, gene_obj)
+linkage("A51", "B52", chi_sq_db, stocks, gene_obj) 
 linkage("B52", "A334", chi_sq_db, stocks, gene_obj)
+linkage("A111", "A334", chi_sq_db, stocks, gene_obj) #this one is for the trial with the wrong gene identifier name
