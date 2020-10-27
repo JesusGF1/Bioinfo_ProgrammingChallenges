@@ -24,6 +24,7 @@ seed_stocks = Database.new
 seed_stocks.load_from_file("#{ARGV[1]}") #Here i am loading seed_stock_data
 stocks = seed_stocks.db #this object is the seed_stock_database
 
+
 seed_stocks.plant("A334") #Here I am planting 7 of each type of seed (it is the default but it can be changed)if I wanted to do it automatically I could by iterating with the keys from the db
 seed_stocks.plant("A348")
 seed_stocks.plant("B3334")
@@ -43,6 +44,7 @@ chi_sq_db = cross_object.chi_sq #saving the new hash with the parents as keys an
 gene_obj = Gene.new
 gene_obj.load_from_file("#{ARGV[0]}") #loading gene_information.tsv
 
+#this could also be done iteratively with the parents1 and parents2 keys from the cross_object
 linkage("A334", "A348", chi_sq_db, stocks, gene_obj)  #this would also be iterable with the keys from the gene database
 linkage("A348", "B3334", chi_sq_db, stocks, gene_obj)
 linkage("B3334", "A51", chi_sq_db, stocks, gene_obj)
