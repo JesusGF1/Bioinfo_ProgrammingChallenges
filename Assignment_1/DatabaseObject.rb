@@ -41,6 +41,7 @@ class Database
         if @db[seed_type]["Grams_Remaining"] > quantity #if there is more seed left than what is planted we change the Grams_remaining in the quantity we planted
           @db[seed_type]["Grams_Remaining"] -= quantity
         else
+          @db[seed_type]["Grams_Remaining"] -= @db[seed_type]["Grams_Remaining"]
           puts "WARNING: we have run out of seed stock #{seed_type}" #if there is less or equal it ouputs an error because we can not plant more than there is
         
         end
@@ -50,7 +51,7 @@ class Database
       puts "This is the info regarding #{seed_type} seed stock: #{@db[seed_type]} " #I don't know if I should ask for grams remaining or the entire hash, but in this case I am asking for the total info         
     end
     
-    def write_database
+    def write_database(database_name = "new_stock_file.tsv")
       header = @words[0] #the header of the new tsv will be the first row of words from the beginning. Is an array of strings
       keys = @db.keys #the keys used to access the values are the keys from the database
       
@@ -64,7 +65,7 @@ class Database
           new_tsv = new_tsv + "\n" + keys[counter] + "\t" + linea.join("\t")  #appending a new line to the append in each cycle
           counter += 1
       end
-      File.open("new_stock_file.tsv", "w") { |f| f.write "#{new_tsv}" } #writting the tsv into a tsv file
+      File.open("#{database_name}", "w") { |f| f.write "#{new_tsv}" } #writting the tsv into a tsv file
     end
     
 end
